@@ -1,12 +1,14 @@
-package io.muzoo.ooc.webapp.basic.servlets;
+package io.muic.ssc.webapp.Servlets;
 
 import io.muic.ssc.webapp.ServletProcesses.AbstractServlet;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class LoginServlet extends AbstractServlet {
 
@@ -19,17 +21,27 @@ public class LoginServlet extends AbstractServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String error;
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        // authentication
-        if (security.authenticate(username, password, request)) {
-            response.sendRedirect("/");
-        } else {
-            error = "Username or Password incorrect. Please try again.";
-            request.setAttribute("message", error);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/login.jsp");
-            requestDispatcher.include(request, response);
+
+        try {
+            if (security.authenticate(request)) {
+                response.sendRedirect("/");
+            }
+            else {
+                error = "Please try again, Password or Username is invalid";
+                request.setAttribute("error",error);
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/login.jsp");
+                requestDispatcher.include(request,response);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
+
+        if (request.getParameter("register")!=null) {
+            response.sendRedirect("/register");
+        }
+
     }
 
     @Override

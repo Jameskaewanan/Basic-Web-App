@@ -1,8 +1,8 @@
 package io.muic.ssc.webapp.ServletProcesses;
 
 import io.muic.ssc.webapp.Servlets.HomeServlet;
-import io.muic.ssc.webapp.Servlets.TestServlet;
-import io.muzoo.ooc.webapp.basic.servlets.LoginServlet;
+import io.muic.ssc.webapp.Servlets.LoginServlet;
+import io.muic.ssc.webapp.Servlets.RegisterServlet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +14,8 @@ public class ServletFactory {
     static {
 
         servlets.add(new HomeServlet());
-        servlets.add(new TestServlet());
         servlets.add(new LoginServlet());
+        servlets.add(new RegisterServlet());
 
     }
 

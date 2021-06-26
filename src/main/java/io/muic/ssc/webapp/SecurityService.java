@@ -1,37 +1,58 @@
 package io.muic.ssc.webapp;
 
-
-import org.apache.tomcat.util.codec.binary.StringUtils;
-
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
+import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 
 public class SecurityService {
 
-    private Map<String, String> userCredentials = new HashMap<String, String>() {{
-        put("admin", "123456");
-        put("muic", "1111");
-    }};
 
-    public boolean isAuthorized(HttpServletRequest request) {
-        String username = (String) request.getSession().getAttribute("username");
-        // do checking
-        return (username != null && userCredentials.containsKey(username));
+    private UserService userService;
+
+    public SecurityService(UserService userService){
+        this.userService = userService;
     }
 
-    public boolean authenticate(String username, String password, HttpServletRequest request) {
-        String passwordInDB = userCredentials.get(username);
-        if (password.equals(passwordInDB)) {
-            request.getSession().setAttribute("username", username);
+    public boolean isAuthorized(HttpServletRequest request) throws SQLException, ClassNotFoundException {
+        String username = (String) request.getSession().getAttribute("username");
+        return (username != null);
+    }
+
+    public Boolean authenticate(HttpServletRequest request) throws SQLException, ClassNotFoundException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        User user = userService.getUsername(username);
+        if (userService.doesExist(username)) {
+            HttpSession httpSession = request.getSession();
+            httpSession.setAttribute("username", username);
             return true;
+            /*
+
+            if (BCrypt.checkpw(password, user.getPassword())) {
+                HttpSession httpSession = request.getSession();
+                httpSession.setAttribute("username", username);
+                return true;
+            }
+            else{
+                return false;
+            }
+
+            */
         } else {
             return false;
         }
     }
 
     public void logout(HttpServletRequest request) {
-        request.getSession().invalidate();
+        HttpSession session = request.getSession();
+        session.removeAttribute("username");
+        session.invalidate();
     }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+    public UserService getUserService() { return userService; }
 
 }

@@ -6,6 +6,10 @@ import javax.servlet.http.HttpServlet;
 
 public abstract class AbstractServlet extends HttpServlet implements Routable {
 
-    protected SecurityService security = new SecurityService();
+    protected SecurityService security;
+
+    public void AbstractServlet(SecurityService security) {
+        this.security = security;
+    }
 
 }
