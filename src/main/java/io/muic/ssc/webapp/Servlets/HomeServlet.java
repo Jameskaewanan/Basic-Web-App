@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -33,35 +34,39 @@ public class HomeServlet extends AbstractServlet { // User List page (home page 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
+        String caseOfRemove = request.getParameter("remove");
         User user = null;
+
+        try {
+            user = security.getUserService().getUsername(caseOfRemove);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         if (request.getParameter("logout") != null) {
             security.logout(request);
             response.sendRedirect("/login");
         }
 
-        /*
-
         if (request.getParameter("remove") != null) {
             try {
                 if (!user.getUsername().equals(session.getAttribute("username"))) {
-                    authentication.getUserService().removeUser(user.getUsername());
+                    security.getUserService().removeUser(user.getUsername());
                     String warning = "You have now deleted the user";
                     request.setAttribute("warning", warning);
-                    response.sendRedirect("/index.jsp");
                 } else {
                     String warning = "you can't delete your own account";
                     request.setAttribute("warning", warning);
-                    response.sendRedirect("/index.jsp");
                 }
+                response.sendRedirect("/index.jsp");
             } catch (SQLException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
-
-         */
     }
 
     @Override

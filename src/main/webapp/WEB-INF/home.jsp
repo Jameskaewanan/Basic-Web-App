@@ -50,6 +50,7 @@
             <td> <button type="submit" name="remove" value=<%=resultSet.getNString("username")%>>Remove</button> </td>
 
     </tr>
+
     <%  }
             resultSet.close();
             statement.close();

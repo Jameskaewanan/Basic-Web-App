@@ -36,6 +36,7 @@ public class DatabaseConnection {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         connection = connect();
+
         String query = "select * from user where username=?";
         preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1,username);
@@ -64,5 +65,22 @@ public class DatabaseConnection {
         }
 
     }
+
+    public void removeUser(String username) throws SQLException, ClassNotFoundException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        connection = connect();
+
+        try {
+            String query = "delete from user where username=?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1,username);
+            preparedStatement.executeUpdate();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 

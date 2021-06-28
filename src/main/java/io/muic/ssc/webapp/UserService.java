@@ -26,4 +26,8 @@ public class UserService {
     public void addUser(String name, String username, String password) throws SQLException, ClassNotFoundException {
         database.addUser(name, username, password);
     }
+
+    public void removeUser(String username) throws SQLException, ClassNotFoundException {
+        database.removeUser(username);
+    }
 }
