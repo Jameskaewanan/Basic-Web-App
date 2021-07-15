@@ -27,18 +27,6 @@ public class SecurityService {
             HttpSession httpSession = request.getSession();
             httpSession.setAttribute("username", username);
             return true;
-            /*
-
-            if (BCrypt.checkpw(password, user.getPassword())) {
-                HttpSession httpSession = request.getSession();
-                httpSession.setAttribute("username", username);
-                return true;
-            }
-            else{
-                return false;
-            }
-
-            */
         } else {
             return false;
         }

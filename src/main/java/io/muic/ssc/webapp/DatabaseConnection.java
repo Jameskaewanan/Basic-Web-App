@@ -82,5 +82,26 @@ public class DatabaseConnection {
         }
     }
 
+    public void editUser(String username, String alter, String change) throws SQLException, ClassNotFoundException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        String query = null;
+        connection = connect();
+
+        if(change.equals("password")){
+            query = "update data set password=? where username=?";
+            alter = BCrypt.hashpw(alter, BCrypt.gensalt());
+        }
+
+        if (change.equals("name")) {
+            query = "update data set name=? where username=?";
+        }
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1,alter);
+        preparedStatement.setString(2,username);
+        preparedStatement.executeUpdate();
+        connection.close();
+    }
+
 }
 

@@ -48,6 +48,7 @@
             <td> <%= resultSet.getString("name")%> </td>
             <td> <%= resultSet.getString("username")%> </td>
             <td> <button type="submit" name="remove" value=<%=resultSet.getNString("username")%>>Remove</button> </td>
+            <td> <button type="submit" name="edit" value<%=resultSet.getNString("username")%>>Edit</button> </td>
 
     </tr>
 

@@ -30,4 +30,8 @@ public class UserService {
     public void removeUser(String username) throws SQLException, ClassNotFoundException {
         database.removeUser(username);
     }
+
+    public void editUser(String username, String alter, String change) throws SQLException, ClassNotFoundException {
+        database.editUser(username, alter, change);
+    }
 }

@@ -50,6 +50,10 @@ public class HomeServlet extends AbstractServlet { // User List page (home page 
             response.sendRedirect("/login");
         }
 
+        if (request.getParameter("edit") != null) {
+            response.sendRedirect("/edit");
+        }
+
         if (request.getParameter("remove") != null) {
             try {
                 if (!user.getUsername().equals(session.getAttribute("username"))) {

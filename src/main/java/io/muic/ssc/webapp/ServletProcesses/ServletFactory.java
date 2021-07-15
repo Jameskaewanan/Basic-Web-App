@@ -1,5 +1,6 @@
 package io.muic.ssc.webapp.ServletProcesses;
 
+import io.muic.ssc.webapp.Servlets.EditServlet;
 import io.muic.ssc.webapp.Servlets.HomeServlet;
 import io.muic.ssc.webapp.Servlets.LoginServlet;
 import io.muic.ssc.webapp.Servlets.RegisterServlet;
@@ -16,6 +17,7 @@ public class ServletFactory {
         servlets.add(new HomeServlet());
         servlets.add(new LoginServlet());
         servlets.add(new RegisterServlet());
+        servlets.add(new EditServlet());
 
     }
 
